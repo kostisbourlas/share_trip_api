@@ -1,4 +1,4 @@
-import java.time.LocalDateTime
+import kotlinx.serialization.Serializable
 
 
 var tripStorage = mutableListOf<Trip>(
@@ -7,7 +7,7 @@ var tripStorage = mutableListOf<Trip>(
         driver = Traveler(id = "1", firstName = "Kostis", lastName = "Bourlas"),
         departureAddress = "Athens",
         arrivalAddress = "Pilio",
-        departureDatetime = LocalDateTime.parse("2022-08-15T14:00:00"),
+        departureDatetime = "15/08/2022 12:00",
         availableSeats = 3
     ),
     Trip(
@@ -15,18 +15,18 @@ var tripStorage = mutableListOf<Trip>(
         driver = Traveler(id = "1", firstName = "Kostis", lastName = "Bourlas"),
         departureAddress = "Athens",
         arrivalAddress = "Halkidiki",
-        departureDatetime = LocalDateTime.parse("2022-08-26T14:00:00"),
+        departureDatetime = "26/08/2022 12:00",
         availableSeats = 3
     )
 )
 
-
+@Serializable
 data class Trip(
     val id: String,
     val driver: Traveler,
     val departureAddress: String,
     val arrivalAddress: String,
-    val departureDatetime: LocalDateTime,
+    val departureDatetime: String,
     var availableSeats: Int,
     val passengers: MutableList<Traveler> = mutableListOf(),
 )
