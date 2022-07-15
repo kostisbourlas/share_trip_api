@@ -33,7 +33,7 @@ fun Route.getTripRoute() {
 }
 
 fun Route.createTripRoute() {
-    post(){
+    post("/trip"){
         val trip = call.receive<Trip>()
         tripStorage.add(trip)
         call.respondText("Trip added successfully.", status = HttpStatusCode.Created)
@@ -41,7 +41,7 @@ fun Route.createTripRoute() {
 }
 
 fun Route.deleteTripRoute() {
-    delete("{id?}") {
+    delete("/trip/{id?}") {
         val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
 
         if (tripStorage.removeIf{ it.id == id }) {
