@@ -4,9 +4,6 @@ import io.ktor.server.routing.*
 fun Application.configureRouting() {
     routing {
         travelerRouting()
-        listTripRoute()
-        getTripRoute()
-        createTripRoute()
-        deleteTripRoute()
+        tripRouting()
     }
 }

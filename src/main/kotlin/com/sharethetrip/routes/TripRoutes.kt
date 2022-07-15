@@ -5,6 +5,13 @@ import io.ktor.server.routing.*
 import io.ktor.server.response.*
 
 
+fun Route.tripRouting() {
+    listTripRoute()
+    getTripRoute()
+    createTripRoute()
+    deleteTripRoute()
+}
+
 fun Route.listTripRoute() {
     get("/trip") {
         if (tripStorage.isNotEmpty()) {
