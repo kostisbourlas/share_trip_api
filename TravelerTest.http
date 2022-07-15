@@ -1,0 +1,4 @@
+curl -X POST --location "http://127.0.0.1:8080/traveler" -H "Content-Type: application/json" -d '{"id": "100", "firstName": "Joe", "lastName": "Smith"}'
+curl -X POST --location "http://127.0.0.1:8080/traveler" -H "Content-Type: application/json" -d '{"id": "200", "firstName": "John", "lastName": "Smith"}'
+
+curl -X POST --location "http://127.0.0.1:8080/traveler" -H "Content-Type: application/json" -d '{"id": "100", ""}'

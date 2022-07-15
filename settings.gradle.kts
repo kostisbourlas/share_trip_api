@@ -1,0 +1,1 @@
+rootProject.name = "com.sharethetrip.share_trip_api"
