@@ -15,15 +15,15 @@ fun Route.tripRouting() {
 }
 
 fun Route.listTripRoute() {
-    get("/trip") {
+    get("/trips") {
         if (tripStorage.isNotEmpty()) {
-            call.respond(tripStorage)
+            return@get call.respond(tripStorage)
         }
     }
 }
 
 fun Route.getTripRoute() {
-    get("/trip/{id}") {
+    get("/trips/{id}") {
         val id = call.parameters["id"] ?: return@get call.respondText(
             "Bad Request", status = HttpStatusCode.BadRequest
         )
@@ -35,7 +35,7 @@ fun Route.getTripRoute() {
 }
 
 fun Route.createTripRoute() {
-    post("/trip"){
+    post("/trips/create"){
         val trip = call.receive<Trip>()
         tripStorage.add(trip)
         call.respondText("Trip added successfully.", status = HttpStatusCode.Created)
@@ -43,7 +43,7 @@ fun Route.createTripRoute() {
 }
 
 fun Route.deleteTripRoute() {
-    delete("/trip/{id?}") {
+    delete("/trips/{id?}/delete") {
         val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
 
         if (tripStorage.removeIf{ it.id == id }) {
@@ -56,7 +56,7 @@ fun Route.deleteTripRoute() {
 }
 
 fun Route.addPassengerToTrip() {
-    post("/trip/{tripId}/add-passenger/{passengerId}") {
+    post("/trips/{tripId}/add-passenger/{passengerId}") {
         val tripId = call.parameters["tripId"] ?: return@post call.respond(HttpStatusCode.BadRequest)
         val passengerId = call.parameters["passengerId"] ?: return@post call.respond(HttpStatusCode.BadRequest)
 
@@ -78,7 +78,7 @@ fun Route.addPassengerToTrip() {
 }
 
 fun Route.removePassengerFromTrip() {
-    post("/trip/{tripId}/remove-passenger/{passengerId}") {
+    post("/trips/{tripId}/remove-passenger/{passengerId}") {
         val tripId = call.parameters["tripId"] ?: return@post call.respond(HttpStatusCode.BadRequest)
         val passengerId = call.parameters["passengerId"] ?: return@post call.respond(HttpStatusCode.BadRequest)
 

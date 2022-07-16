@@ -5,7 +5,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Route.travelerRouting() {
-    route("/traveler") {
+    route("/travelers") {
         get {
             if (travelerStorage.isNotEmpty()) {
                 call.respond(travelerStorage)
@@ -25,12 +25,12 @@ fun Route.travelerRouting() {
 
             call.respond(traveler)
         }
-        post {
+        post ("create"){
             val traveler = call.receive<Traveler>()
             travelerStorage.add(traveler)
             call.respondText("Traveler added successfully.", status = HttpStatusCode.Created)
         }
-        delete("{id?}") {
+        delete("{id?}/delete") {
             val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
 
             if (travelerStorage.removeIf{ it.id == id }) {
