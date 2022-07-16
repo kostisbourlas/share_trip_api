@@ -1,7 +1,19 @@
-curl -X POST --location "http://127.0.0.1:8080/travelers" -H "Content-Type: application/json" -d '{"id": "100", "firstName": "Joe", "lastName": "Smith"}'
-curl -X POST --location "http://127.0.0.1:8080/travelers" -H "Content-Type: application/json" -d '{"id": "200", "firstName": "John", "lastName": "Smith"}'
+############# Travelers API #############
 
-curl -X POST --location "http://127.0.0.1:8080/traveler" -H "Content-Type: application/json" -d '{"id": "100", "driver": {"id": "3", "firstName": "Kostis", "lastName": "Bourlas"}, "departureAddress": "Pilio", "arrivalAddress": "Athens", "departureDatetime": "01/09/2022 11:30", "availableSeats": "2"}'
+curl -X GET --location "http://127.0.0.1:8080/travelers
+curl -X GET --location "http://127.0.0.1:8080/travelers/100
+
+curl -X POST --location "http://127.0.0.1:8080/travelers" -H "Content-Type: application/json" -d '{"id": "100", "firstName": "Joe", "lastName": "Smith"}'
+
+curl -X DELETE  --location "http://127.0.0.1:8080/travelers/300/delete" -H "Content-Type: application/json"
+
+
+############# Trips API #############
+
+curl -X GET --location "http://127.0.0.1:8080/trips
+curl -X GET --location "http://127.0.0.1:8080/trips/1
+
+curl -X POST --location "http://127.0.0.1:8080/trips/create" -H "Content-Type: application/json" -d '{"id": "100", "driver": {"id": "1", "firstName": "Joe", "lastName": "Smith"}, "departureAddress": "Pilio", "arrivalAddress": "Athens", "departureDatetime": "01/09/2022 11:30", "availableSeats": "3"}'
 
 curl -X POST --location "http://127.0.0.1:8080/trips/1/add-passenger/2" -H "Content-Type: application/json"
 

@@ -37,8 +37,12 @@ fun Route.getTripRoute() {
 fun Route.createTripRoute() {
     post("/trips/create"){
         val trip = call.receive<Trip>()
+
+        if (travelerStorage.find { it.id == trip.driver.id } == null) {
+            return@post call.respondText("The driver does not exist.")
+        }
         tripStorage.add(trip)
-        call.respondText("Trip added successfully.", status = HttpStatusCode.Created)
+        return@post call.respondText("Trip added successfully.", status = HttpStatusCode.Created)
     }
 }
 
