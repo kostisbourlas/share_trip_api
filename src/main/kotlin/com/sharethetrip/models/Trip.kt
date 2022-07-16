@@ -11,6 +11,9 @@ data class Trip(
     val passengers: MutableList<Traveler> = mutableListOf(),
 ) {
     fun addPassenger(passenger: Traveler) {
+        if (this.driver.id == passenger.id) {
+            throw InvalidPassengerException("You cannot be passenger as long as you are the driver of this trip.")
+        }
         if (this.availableSeats <= 0) {
             throw NotAvailableSeatsException("There is no available seat in this trip.")
         }
@@ -19,6 +22,13 @@ data class Trip(
         }
         this.passengers.add(passenger)
         this.availableSeats--
+    }
+
+    fun removePassenger(passenger: Traveler) {
+        if (!this.passengers.removeIf { it.id == passenger.id }) {
+            throw InvalidPassengerException("You do not belong to the list of passenger for this trip")
+        }
+        this.availableSeats++
     }
 }
 

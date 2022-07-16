@@ -11,6 +11,7 @@ fun Route.tripRouting() {
     createTripRoute()
     deleteTripRoute()
     addPassengerToTrip()
+    removePassengerFromTrip()
 }
 
 fun Route.listTripRoute() {
@@ -55,21 +56,43 @@ fun Route.deleteTripRoute() {
 }
 
 fun Route.addPassengerToTrip() {
-    post("/trip/{id}/add-passenger") {
-        val id = call.parameters["id"] ?: return@post call.respond(HttpStatusCode.BadRequest)
-        val passenger = call.receive<Traveler>()
-        val trip = tripStorage.find { it.id == id }
+    post("/trip/{tripId}/add-passenger/{passengerId}") {
+        val tripId = call.parameters["tripId"] ?: return@post call.respond(HttpStatusCode.BadRequest)
+        val passengerId = call.parameters["passengerId"] ?: return@post call.respond(HttpStatusCode.BadRequest)
+
+        val trip = tripStorage.find { it.id == tripId }
+            ?: return@post call.respondText("Trip not found.", status = HttpStatusCode.NotFound)
+        val passenger = travelerStorage.find { it.id == passengerId }
             ?: return@post call.respondText("Trip not found.", status = HttpStatusCode.NotFound)
 
         try {
             trip.addPassenger(passenger)
-            return@post call.respondText("Traveler has been added to the trip successfully.")
-        }
-        catch (e: NotAvailableSeatsException) {
+        } catch (e: NotAvailableSeatsException) {
+            return@post call.respondText(e.toString(), status = HttpStatusCode.OK)
+        } catch (e: InvalidPassengerException) {
             return@post call.respondText(e.toString(), status = HttpStatusCode.OK)
         }
-        catch (e: InvalidPassengerException) {
+
+        return@post call.respondText("Traveler has been added to the trip successfully.")
+    }
+}
+
+fun Route.removePassengerFromTrip() {
+    post("/trip/{tripId}/remove-passenger/{passengerId}") {
+        val tripId = call.parameters["tripId"] ?: return@post call.respond(HttpStatusCode.BadRequest)
+        val passengerId = call.parameters["passengerId"] ?: return@post call.respond(HttpStatusCode.BadRequest)
+
+        val trip = tripStorage.find { it.id == tripId }
+            ?: return@post call.respondText("Trip not found.", status = HttpStatusCode.NotFound)
+        val passenger = travelerStorage.find { it.id == passengerId }
+            ?: return@post call.respondText("Trip not found.", status = HttpStatusCode.NotFound)
+
+        try {
+            trip.removePassenger(passenger)
+        } catch (e: InvalidPassengerException) {
             return@post call.respondText(e.toString(), status = HttpStatusCode.OK)
         }
+
+        return@post call.respondText("Traveler has been removed from the trip successfully.")
     }
 }
