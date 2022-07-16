@@ -1,0 +1,6 @@
+curl -X POST --location "http://127.0.0.1:8080/traveler" -H "Content-Type: application/json" -d '{"id": "100", "firstName": "Joe", "lastName": "Smith"}'
+curl -X POST --location "http://127.0.0.1:8080/traveler" -H "Content-Type: application/json" -d '{"id": "200", "firstName": "John", "lastName": "Smith"}'
+
+curl -X POST --location "http://127.0.0.1:8080/traveler" -H "Content-Type: application/json" -d '{"id": "100", "driver": {"id": "3", "firstName": "Kostis", "lastName": "Bourlas"}, "departureAddress": "Pilio", "arrivalAddress": "Athens", "departureDatetime": "01/09/2022 11:30", "availableSeats": "2"}'
+
+curl -X POST --location "http://127.0.0.1:8080/trip/1/add-passenger" -H "Content-Type: application/json" -d '{"id": "100", "firstName": "Joe", "lastName": "Smith"}'

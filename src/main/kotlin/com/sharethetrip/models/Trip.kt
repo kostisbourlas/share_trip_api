@@ -9,7 +9,18 @@ data class Trip(
     val departureDatetime: String,
     var availableSeats: Int,
     val passengers: MutableList<Traveler> = mutableListOf(),
-)
+) {
+    fun addPassenger(passenger: Traveler) {
+        if (this.availableSeats <= 0) {
+            throw NotAvailableSeatsException("There is no available seat in this trip.")
+        }
+        if (this.passengers.find{ it.id == passenger.id} != null) {
+            throw InvalidPassengerException("You have already been added to this trip.")
+        }
+        this.passengers.add(passenger)
+        this.availableSeats--
+    }
+}
 
 var tripStorage = mutableListOf<Trip>(
     Trip(

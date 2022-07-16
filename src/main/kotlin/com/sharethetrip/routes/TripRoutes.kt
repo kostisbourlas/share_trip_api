@@ -10,6 +10,7 @@ fun Route.tripRouting() {
     getTripRoute()
     createTripRoute()
     deleteTripRoute()
+    addPassengerToTrip()
 }
 
 fun Route.listTripRoute() {
@@ -51,4 +52,24 @@ fun Route.deleteTripRoute() {
         }
     }
 
+}
+
+fun Route.addPassengerToTrip() {
+    post("/trip/{id}/add-passenger") {
+        val id = call.parameters["id"] ?: return@post call.respond(HttpStatusCode.BadRequest)
+        val passenger = call.receive<Traveler>()
+        val trip = tripStorage.find { it.id == id }
+            ?: return@post call.respondText("Trip not found.", status = HttpStatusCode.NotFound)
+
+        try {
+            trip.addPassenger(passenger)
+            return@post call.respondText("Traveler has been added to the trip successfully.")
+        }
+        catch (e: NotAvailableSeatsException) {
+            return@post call.respondText(e.toString(), status = HttpStatusCode.OK)
+        }
+        catch (e: InvalidPassengerException) {
+            return@post call.respondText(e.toString(), status = HttpStatusCode.OK)
+        }
+    }
 }
