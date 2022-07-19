@@ -5,5 +5,6 @@ fun Application.configureRouting() {
     routing {
         travelerRouting()
         tripRouting()
+        searchTripRouting()
     }
 }

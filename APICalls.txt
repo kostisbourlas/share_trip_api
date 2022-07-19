@@ -18,3 +18,5 @@ curl -X POST --location "http://127.0.0.1:8080/trips/create" -H "Content-Type: a
 curl -X POST --location "http://127.0.0.1:8080/trips/1/add-passenger/2" -H "Content-Type: application/json"
 
 curl -X POST --location "http://127.0.0.1:8080/trips/1/remove-passenger/2" -H "Content-Type: application/json"
+
+curl -X GET --location "http://127.0.0.1:8080/search/trips" -H "Content-Type: application/json" -d '{"addressFrom": "Athens", "addressTo": "Pilio"}'
