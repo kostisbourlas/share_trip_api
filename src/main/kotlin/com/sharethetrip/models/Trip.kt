@@ -9,6 +9,7 @@ data class Trip(
     val departureDatetime: String,
     var availableSeats: Int,
     val passengers: MutableList<Traveler> = mutableListOf(),
+    val description: String? = null,
 ) {
     fun addPassenger(passenger: Traveler) {
         if (this.driver.id == passenger.id) {
