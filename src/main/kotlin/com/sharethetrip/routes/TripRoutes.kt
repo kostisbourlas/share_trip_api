@@ -66,11 +66,11 @@ fun Route.addPassengerToTrip() {
 
         val trip = tripStorage.find { it.id == tripId }
             ?: return@post call.respondText("Trip not found.", status = HttpStatusCode.NotFound)
-        val passenger = travelerStorage.find { it.id == passengerId }
+        travelerStorage.find { it.id == passengerId }
             ?: return@post call.respondText("Trip not found.", status = HttpStatusCode.NotFound)
 
         try {
-            trip.addPassenger(passenger)
+            trip.addPassenger(passengerId)
         } catch (e: NotAvailableSeatsException) {
             return@post call.respondText(e.toString(), status = HttpStatusCode.OK)
         } catch (e: InvalidPassengerException) {

@@ -8,26 +8,26 @@ data class Trip(
     val arrivalAddress: String,
     val departureDatetime: String,
     var availableSeats: Int,
-    val passengers: MutableList<Traveler> = mutableListOf(),
+    val passengersIds: MutableList<String> = mutableListOf(),
     val description: String? = null,
 ) {
-    fun addPassenger(passenger: Traveler) {
-        if (this.driverId == passenger.id) {
+    fun addPassenger(passengerId: String) {
+        if (this.driverId == passengerId) {
             throw InvalidPassengerException("You cannot be passenger as long as you are the driver of this trip.")
         }
         if (this.availableSeats <= 0) {
             throw NotAvailableSeatsException("There is no available seat in this trip.")
         }
-        if (this.passengers.find{ it.id == passenger.id} != null) {
+        if (this.passengersIds.find{ it == passengerId} != null) {
             throw InvalidPassengerException("You have already been added to this trip.")
         }
-        this.passengers.add(passenger)
+        this.passengersIds.add(passengerId)
         this.availableSeats--
     }
 
     fun removePassenger(passenger: Traveler) {
-        if (!this.passengers.removeIf { it.id == passenger.id }) {
-            throw InvalidPassengerException("You do not belong to the list of passenger for this trip")
+        if (!this.passengersIds.removeIf { it == passenger.id }) {
+            throw InvalidPassengerException("You do not belong to the list of passengers for this trip")
         }
         this.availableSeats++
     }
