@@ -1,14 +1,14 @@
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Trip(
+class Trip(
     val id: String,
     val driverId: String,
     val departureAddress: String,
     val arrivalAddress: String,
     val departureDatetime: String,
     var availableSeats: Int,
-    val passengersIds: MutableList<String> = mutableListOf(),
+    private val passengersIds: MutableList<String> = mutableListOf(),
     val description: String? = null,
 ) {
     fun addPassenger(passengerId: String) {
