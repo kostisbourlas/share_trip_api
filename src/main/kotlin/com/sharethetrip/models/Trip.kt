@@ -3,7 +3,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Trip(
     val id: String,
-    val driver: Traveler,
+    val driverId: String,
     val departureAddress: String,
     val arrivalAddress: String,
     val departureDatetime: String,
@@ -12,7 +12,7 @@ data class Trip(
     val description: String? = null,
 ) {
     fun addPassenger(passenger: Traveler) {
-        if (this.driver.id == passenger.id) {
+        if (this.driverId == passenger.id) {
             throw InvalidPassengerException("You cannot be passenger as long as you are the driver of this trip.")
         }
         if (this.availableSeats <= 0) {
@@ -36,7 +36,7 @@ data class Trip(
 var tripStorage = mutableListOf<Trip>(
     Trip(
         id="1",
-        driver = Traveler(id = "1", firstName = "Joe", lastName = "Doe"),
+        driverId = "1",
         departureAddress = "Athens",
         arrivalAddress = "Pilio",
         departureDatetime = "15/08/2022 12:00",
@@ -44,7 +44,7 @@ var tripStorage = mutableListOf<Trip>(
     ),
     Trip(
         id="2",
-        driver = Traveler(id = "1", firstName = "Joe", lastName = "Doe"),
+        driverId = "1",
         departureAddress = "Athens",
         arrivalAddress = "Halkidiki",
         departureDatetime = "26/08/2022 12:00",
