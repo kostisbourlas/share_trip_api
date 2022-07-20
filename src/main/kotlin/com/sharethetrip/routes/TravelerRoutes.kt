@@ -15,17 +15,15 @@ fun Route.travelerRouting() {
         }
         get("{id?}") {
             val id = call.parameters["id"] ?: return@get call.respondText(
-                "Missing id",
-                status = HttpStatusCode.BadRequest
+                "Missing id", status = HttpStatusCode.BadRequest
             )
-            val traveler = travelerStorage.find{ it.id == id } ?: return@get call.respondText(
-                "No traveler with id ${id}.",
-                status = HttpStatusCode.NotFound
+            val traveler = travelerStorage.find { it.id == id } ?: return@get call.respondText(
+                "No traveler with id ${id}.", status = HttpStatusCode.NotFound
             )
 
             call.respond(traveler)
         }
-        post ("create"){
+        post("create") {
             val traveler = call.receive<Traveler>()
             travelerStorage.add(traveler)
             call.respondText("Traveler added successfully.", status = HttpStatusCode.Created)
@@ -33,7 +31,7 @@ fun Route.travelerRouting() {
         delete("{id?}/delete") {
             val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
 
-            if (travelerStorage.removeIf{ it.id == id }) {
+            if (travelerStorage.removeIf { it.id == id }) {
                 call.respondText("Traveler deleted successfully.", status = HttpStatusCode.Accepted)
             } else {
                 call.respondText("Traveler not Found", status = HttpStatusCode.NotFound)

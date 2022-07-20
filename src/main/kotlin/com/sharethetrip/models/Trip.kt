@@ -18,7 +18,7 @@ data class Trip(
         if (this.availableSeats <= 0) {
             throw NotAvailableSeatsException("There is no available seat in this trip.")
         }
-        if (this.passengersIds.find{ it == passengerId} != null) {
+        if (this.passengersIds.find { it == passengerId } != null) {
             throw InvalidPassengerException("You have already been added to this trip.")
         }
         this.passengersIds.add(passengerId)
@@ -35,15 +35,14 @@ data class Trip(
 
 var tripStorage = mutableListOf<Trip>(
     Trip(
-        id="1",
+        id = "1",
         driverId = "1",
         departureAddress = "Athens",
         arrivalAddress = "Pilio",
         departureDatetime = "15/08/2022 12:00",
         availableSeats = 3
-    ),
-    Trip(
-        id="2",
+    ), Trip(
+        id = "2",
         driverId = "1",
         departureAddress = "Athens",
         arrivalAddress = "Halkidiki",

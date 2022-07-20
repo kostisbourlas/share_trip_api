@@ -35,7 +35,7 @@ fun Route.getTripRoute() {
 }
 
 fun Route.createTripRoute() {
-    post("/trips/create"){
+    post("/trips/create") {
         val trip = call.receive<Trip>()
 
         if (travelerStorage.find { it.id == trip.driverId } == null) {
@@ -50,7 +50,7 @@ fun Route.deleteTripRoute() {
     delete("/trips/{id?}/delete") {
         val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
 
-        if (tripStorage.removeIf{ it.id == id }) {
+        if (tripStorage.removeIf { it.id == id }) {
             call.respondText("Trip deleted successfully.", status = HttpStatusCode.Accepted)
         } else {
             call.respondText("Trip not Found", status = HttpStatusCode.NotFound)
@@ -64,10 +64,12 @@ fun Route.addPassengerToTrip() {
         val tripId = call.parameters["tripId"] ?: return@post call.respond(HttpStatusCode.BadRequest)
         val passengerId = call.parameters["passengerId"] ?: return@post call.respond(HttpStatusCode.BadRequest)
 
-        val trip = tripStorage.find { it.id == tripId }
-            ?: return@post call.respondText("Trip not found.", status = HttpStatusCode.NotFound)
-        travelerStorage.find { it.id == passengerId }
-            ?: return@post call.respondText("Trip not found.", status = HttpStatusCode.NotFound)
+        val trip = tripStorage.find { it.id == tripId } ?: return@post call.respondText(
+            "Trip not found.", status = HttpStatusCode.NotFound
+        )
+        travelerStorage.find { it.id == passengerId } ?: return@post call.respondText(
+            "Trip not found.", status = HttpStatusCode.NotFound
+        )
 
         try {
             trip.addPassenger(passengerId)
@@ -86,10 +88,12 @@ fun Route.removePassengerFromTrip() {
         val tripId = call.parameters["tripId"] ?: return@post call.respond(HttpStatusCode.BadRequest)
         val passengerId = call.parameters["passengerId"] ?: return@post call.respond(HttpStatusCode.BadRequest)
 
-        val trip = tripStorage.find { it.id == tripId }
-            ?: return@post call.respondText("Trip not found.", status = HttpStatusCode.NotFound)
-        val passenger = travelerStorage.find { it.id == passengerId }
-            ?: return@post call.respondText("Trip not found.", status = HttpStatusCode.NotFound)
+        val trip = tripStorage.find { it.id == tripId } ?: return@post call.respondText(
+            "Trip not found.", status = HttpStatusCode.NotFound
+        )
+        val passenger = travelerStorage.find { it.id == passengerId } ?: return@post call.respondText(
+            "Trip not found.", status = HttpStatusCode.NotFound
+        )
 
         try {
             trip.removePassenger(passenger)

@@ -12,8 +12,7 @@ fun Route.searchTripRoute() {
     get("/search/trips") {
         val searchTrip = call.receive<SearchTrip>()
         val trips = tripStorage.filter {
-            it.departureAddress == searchTrip.addressFrom &&
-            it.arrivalAddress == searchTrip.addressTo
+            it.departureAddress == searchTrip.addressFrom && it.arrivalAddress == searchTrip.addressTo
         }
         return@get call.respond(trips)
     }
