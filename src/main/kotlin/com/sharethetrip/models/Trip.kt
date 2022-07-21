@@ -1,4 +1,5 @@
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
 @Serializable
 class Trip(
@@ -8,7 +9,7 @@ class Trip(
     val arrivalAddress: String,
     val departureDatetime: String,
     var availableSeats: Int,
-    private val passengersIds: MutableList<String> = mutableListOf(),
+    @Transient private val passengersIds: MutableList<String> = mutableListOf(),
     val description: String? = null,
 ) {
     fun addPassenger(passengerId: String) {
