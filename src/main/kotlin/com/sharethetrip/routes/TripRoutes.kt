@@ -36,7 +36,7 @@ fun Route.createTripRoute() {
     post("/trips/create") {
         val trip = call.receive<Trip>()
 
-        if (travelerStorage.find { it.id == trip.driverId } == null) {
+        if (TravelerDao.getTraveler(trip.driverId) == null) {
             return@post call.respondText("The driver does not exist.", status = HttpStatusCode.OK)
         }
         if (!TripDao.createTrip(trip)) {
@@ -50,7 +50,7 @@ fun Route.deleteTripRoute() {
     delete("/trips/{id?}/delete") {
         val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
 
-        if(!TripDao.deleteTrip(id)) {
+        if (!TripDao.deleteTrip(id)) {
             call.respondText("Trip not Found.", status = HttpStatusCode.NotFound)
         }
         call.respondText("Trip deleted successfully.", status = HttpStatusCode.OK)
@@ -66,7 +66,7 @@ fun Route.addPassengerToTrip() {
         val trip = TripDao.getTrip(tripId) ?: return@post call.respondText(
             "Trip not found.", status = HttpStatusCode.NotFound
         )
-        travelerStorage.find { it.id == passengerId } ?: return@post call.respondText(
+        TravelerDao.getTraveler(passengerId) ?: return@post call.respondText(
             "Passenger not found.", status = HttpStatusCode.NotFound
         )
 
@@ -90,7 +90,7 @@ fun Route.removePassengerFromTrip() {
         val trip = TripDao.getTrip(tripId) ?: return@post call.respondText(
             "Trip not found.", status = HttpStatusCode.NotFound
         )
-        val passenger = travelerStorage.find { it.id == passengerId } ?: return@post call.respondText(
+        val passenger = TravelerDao.getTraveler(passengerId) ?: return@post call.respondText(
             "Trip not found.", status = HttpStatusCode.NotFound
         )
 

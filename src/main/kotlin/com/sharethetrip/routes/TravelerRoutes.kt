@@ -7,17 +7,13 @@ import io.ktor.server.routing.*
 fun Route.travelerRouting() {
     route("/travelers") {
         get {
-            if (travelerStorage.isNotEmpty()) {
-                call.respond(travelerStorage)
-            } else {
-                call.respondText("No travelers found.", status = HttpStatusCode.OK)
-            }
+            return@get call.respond(TravelerDao.getTravelers())
         }
         get("{id?}") {
             val id = call.parameters["id"] ?: return@get call.respondText(
                 "Missing id", status = HttpStatusCode.BadRequest
             )
-            val traveler = travelerStorage.find { it.id == id } ?: return@get call.respondText(
+            val traveler = TravelerDao.getTraveler(id) ?: return@get call.respondText(
                 "No traveler with id ${id}.", status = HttpStatusCode.NotFound
             )
 
@@ -25,13 +21,13 @@ fun Route.travelerRouting() {
         }
         post("create") {
             val traveler = call.receive<Traveler>()
-            travelerStorage.add(traveler)
+            TravelerDao.createTraveler(traveler)
             call.respondText("Traveler added successfully.", status = HttpStatusCode.Created)
         }
         delete("{id?}/delete") {
             val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
 
-            if (travelerStorage.removeIf { it.id == id }) {
+            if (TravelerDao.deleteTraveler(id)) {
                 call.respondText("Traveler deleted successfully.", status = HttpStatusCode.Accepted)
             } else {
                 call.respondText("Traveler not Found", status = HttpStatusCode.NotFound)
