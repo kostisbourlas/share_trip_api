@@ -11,9 +11,7 @@ fun Route.searchTripRouting() {
 fun Route.searchTripRoute() {
     get("/search/trips") {
         val searchTrip = call.receive<SearchTrip>()
-        val trips = tripStorage.filter {
-            it.departureAddress == searchTrip.addressFrom && it.arrivalAddress == searchTrip.addressTo
-        }
+        val trips = TripDao.searchTrip(searchTrip.addressFrom, searchTrip.addressTo)
         return@get call.respond(trips)
     }
 }

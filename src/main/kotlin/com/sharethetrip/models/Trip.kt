@@ -20,7 +20,7 @@ class Trip(
             throw NotAvailableSeatsException("There is no available seat in this trip.")
         }
         if (this.passengersIds.find { it == passengerId } != null) {
-            throw InvalidPassengerException("You have already been added to this trip.")
+            throw InvalidPassengerException("Passenger has already been added to this trip.")
         }
         this.passengersIds.add(passengerId)
         this.availableSeats--
@@ -28,26 +28,47 @@ class Trip(
 
     fun removePassenger(passenger: Traveler) {
         if (!this.passengersIds.removeIf { it == passenger.id }) {
-            throw InvalidPassengerException("You do not belong to the list of passengers for this trip")
+            throw InvalidPassengerException("Passenger does not belong to this trip.")
         }
         this.availableSeats++
     }
 }
 
-var tripStorage = mutableListOf<Trip>(
-    Trip(
-        id = "1",
-        driverId = "1",
-        departureAddress = "Athens",
-        arrivalAddress = "Pilio",
-        departureDatetime = "15/08/2022 12:00",
-        availableSeats = 3
-    ), Trip(
-        id = "2",
-        driverId = "1",
-        departureAddress = "Athens",
-        arrivalAddress = "Halkidiki",
-        departureDatetime = "26/08/2022 12:00",
-        availableSeats = 3
-    )
-)
+object TripDao {
+    var tripStorage: MutableList<Trip> = mutableListOf()
+
+    init {
+        tripStorage.add(
+            Trip(
+                id = "1",
+                driverId = "1",
+                departureAddress = "Athens",
+                arrivalAddress = "Pilio",
+                departureDatetime = "15/08/2022 12:00",
+                availableSeats = 4
+            )
+        )
+    }
+
+    fun getTrips(): MutableList<Trip> {
+        return this.tripStorage
+    }
+
+    fun getTrip(id: String): Trip? {
+        return this.tripStorage.find { it.id == id }
+    }
+
+    fun createTrip(trip: Trip): Boolean {
+        return this.tripStorage.add(trip)
+    }
+
+    fun deleteTrip(id: String): Boolean {
+        return this.tripStorage.removeIf { it.id == id }
+    }
+
+    fun searchTrip(departureAddress: String?, arrivalAddress: String?): List<Trip> {
+        return this.tripStorage.filter {
+            it.departureAddress == departureAddress && it.arrivalAddress == arrivalAddress
+        }
+    }
+}
