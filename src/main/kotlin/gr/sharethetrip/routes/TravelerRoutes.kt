@@ -22,7 +22,7 @@ fun Route.travelerRouting() {
         post("create") {
             val traveler = call.receive<Traveler>()
             TravelerDao.createTraveler(traveler.id, traveler.firstName, traveler.lastName)
-            call.respondText("Traveler added successfully.", status = HttpStatusCode.Created)
+            call.respondText("Traveler created successfully.", status = HttpStatusCode.Created)
         }
         delete("{id?}/delete") {
             val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
