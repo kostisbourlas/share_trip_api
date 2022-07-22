@@ -58,8 +58,26 @@ object TripDao {
         return this.tripStorage.find { it.id == id }
     }
 
-    fun createTrip(trip: Trip): Boolean {
-        return this.tripStorage.add(trip)
+    fun createTrip(
+        id: String,
+        driverId: String,
+        departureAddress: String,
+        arrivalAddress: String,
+        departureDatetime: String,
+        availableSeats: Int,
+        description: String?
+    ): Boolean {
+        return this.tripStorage.add(
+            Trip(
+                id = id,
+                driverId = driverId,
+                departureAddress = departureAddress,
+                arrivalAddress = arrivalAddress,
+                departureDatetime = departureDatetime,
+                availableSeats = availableSeats,
+                description = description,
+            )
+        )
     }
 
     fun deleteTrip(id: String): Boolean {

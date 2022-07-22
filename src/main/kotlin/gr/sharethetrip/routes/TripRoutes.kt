@@ -39,7 +39,16 @@ fun Route.createTripRoute() {
         if (TravelerDao.getTraveler(trip.driverId) == null) {
             return@post call.respondText("The driver does not exist.", status = HttpStatusCode.OK)
         }
-        if (!TripDao.createTrip(trip)) {
+        if (!TripDao.createTrip(
+                trip.id,
+                trip.driverId,
+                trip.departureAddress,
+                trip.arrivalAddress,
+                trip.departureDatetime,
+                trip.availableSeats,
+                trip.description
+            )
+        ) {
             return@post call.respondText("Cannot create trip.", status = HttpStatusCode.OK)
         }
         return@post call.respondText("Trip added successfully.", status = HttpStatusCode.Created)
