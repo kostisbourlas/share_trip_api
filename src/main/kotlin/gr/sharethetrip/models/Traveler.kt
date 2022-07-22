@@ -20,8 +20,8 @@ object TravelerDao {
         return this.travelerStorage.find { it.id == id }
     }
 
-    fun createTraveler(traveler: Traveler): Boolean {
-        return this.travelerStorage.add(traveler)
+    fun createTraveler(id: String, firstName: String, lastName: String): Boolean {
+        return this.travelerStorage.add(Traveler(id, firstName, lastName))
     }
 
     fun deleteTraveler(id: String): Boolean {
