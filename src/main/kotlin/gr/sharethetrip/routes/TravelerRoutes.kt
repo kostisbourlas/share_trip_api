@@ -11,7 +11,7 @@ fun Route.travelerRouting() {
         }
         get("{id?}") {
             val id = call.parameters["id"] ?: return@get call.respondText(
-                "Missing id", status = HttpStatusCode.BadRequest
+                "Missing id.", status = HttpStatusCode.BadRequest
             )
             val traveler = TravelerDao.getTraveler(id) ?: return@get call.respondText(
                 "No traveler with id ${id}.", status = HttpStatusCode.NotFound
@@ -30,7 +30,7 @@ fun Route.travelerRouting() {
             if (TravelerDao.deleteTraveler(id)) {
                 call.respondText("Traveler deleted successfully.", status = HttpStatusCode.Accepted)
             } else {
-                call.respondText("Traveler not Found", status = HttpStatusCode.NotFound)
+                call.respondText("Traveler not Found.", status = HttpStatusCode.NotFound)
             }
         }
     }
