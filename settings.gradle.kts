@@ -1,1 +1,1 @@
-rootProject.name = "com.sharethetrip.share_trip_api"
+rootProject.name = "gr.sharethetrip.share_the_trip_api"

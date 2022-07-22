@@ -1,7 +1,7 @@
 ############# Travelers API #############
 
 curl -X GET --location http://127.0.0.1:8080/travelers
-curl -X GET --location http://127.0.0.1:8080/travelers/1
+    curl -X GET --location http://127.0.0.1:8080/travelers/1
 
 curl -X POST --location "http://127.0.0.1:8080/travelers/create" -H "Content-Type: application/json" -d '{"id": "100", "firstName": "Joe", "lastName": "Smith"}'
 

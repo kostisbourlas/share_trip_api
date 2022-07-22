@@ -1,7 +1,7 @@
 import kotlinx.serialization.Serializable
 
 @Serializable
-class Traveler(val id: String, val firstName: String, val lastName: String)
+data class Traveler(val id: String, val firstName: String, val lastName: String)
 
 object TravelerDao {
     var travelerStorage: MutableList<Traveler> = mutableListOf()

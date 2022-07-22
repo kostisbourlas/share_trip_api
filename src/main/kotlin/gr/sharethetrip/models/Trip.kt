@@ -2,7 +2,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 
 @Serializable
-class Trip(
+data class Trip(
     val id: String,
     val driverId: String,
     val departureAddress: String,

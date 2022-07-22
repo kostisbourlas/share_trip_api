@@ -1,7 +1,7 @@
 import kotlinx.serialization.Serializable
 
 @Serializable
-class SearchTrip(
+data class SearchTrip(
     val addressFrom: String? = null,
     val addressTo: String? = null,
 )
