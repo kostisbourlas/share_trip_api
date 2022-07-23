@@ -32,7 +32,7 @@ fun Route.travelerRouting() {
             val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
 
             if (TravelerDao.deleteTraveler(id)) {
-                call.respondText("Traveler deleted successfully.", status = HttpStatusCode.Accepted)
+                call.respondText("Traveler deleted successfully.", status = HttpStatusCode.OK)
             } else {
                 call.respondText("Traveler not Found.", status = HttpStatusCode.NotFound)
             }

@@ -72,7 +72,7 @@ class TravelerRoutesTest {
         val response = client.delete("/travelers/100/delete") {
             contentType(ContentType.Application.Json)
         }
-        assertEquals(HttpStatusCode.Accepted, response.status)
+        assertEquals(HttpStatusCode.OK, response.status)
         assertEquals("Traveler deleted successfully.", response.bodyAsText())
     }
 
