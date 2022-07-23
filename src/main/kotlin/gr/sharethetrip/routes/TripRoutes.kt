@@ -25,7 +25,7 @@ fun Route.tripRouting() {
             val trip = call.receive<Trip>()
 
             if (TravelerDao.getTraveler(trip.driverId) == null) {
-                return@post call.respondText("The driver does not exist.", status = HttpStatusCode.OK)
+                return@post call.respondText("The driver does not exist.", status = HttpStatusCode.BadRequest)
             }
             if (!TripDao.createTrip(
                     trip.id,
@@ -37,7 +37,7 @@ fun Route.tripRouting() {
                     trip.description
                 )
             ) {
-                return@post call.respondText("Cannot create trip.", status = HttpStatusCode.OK)
+                return@post call.respondText("Cannot create trip.", status = HttpStatusCode.InternalServerError)
             }
             return@post call.respondText("Trip created successfully.", status = HttpStatusCode.Created)
         }
@@ -46,7 +46,7 @@ fun Route.tripRouting() {
             val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
 
             if (!TripDao.deleteTrip(id)) {
-                call.respondText("Trip not Found.", status = HttpStatusCode.NotFound)
+                call.respondText("Trip not found.", status = HttpStatusCode.NotFound)
             }
             call.respondText("Trip deleted successfully.", status = HttpStatusCode.OK)
         }
