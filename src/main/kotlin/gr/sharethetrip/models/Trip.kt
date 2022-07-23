@@ -50,6 +50,20 @@ object TripDao {
         )
     }
 
+    fun createTripObject(
+        id: String,
+        driverId: String,
+        departureAddress: String,
+        arrivalAddress: String,
+        departureDatetime: String,
+        availableSeats: Int,
+        description: String? = null
+    ): Trip {
+        return Trip(
+            id, driverId, departureAddress, arrivalAddress, departureDatetime, availableSeats, description = description
+        )
+    }
+
     fun getTrips(): MutableList<Trip> {
         return this.tripStorage
     }
@@ -65,7 +79,7 @@ object TripDao {
         arrivalAddress: String,
         departureDatetime: String,
         availableSeats: Int,
-        description: String?
+        description: String? = null,
     ): Boolean {
         return this.tripStorage.add(
             Trip(

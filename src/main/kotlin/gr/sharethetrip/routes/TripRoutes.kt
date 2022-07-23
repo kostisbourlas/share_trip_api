@@ -39,7 +39,7 @@ fun Route.tripRouting() {
             ) {
                 return@post call.respondText("Cannot create trip.", status = HttpStatusCode.OK)
             }
-            return@post call.respondText("Trip added successfully.", status = HttpStatusCode.Created)
+            return@post call.respondText("Trip created successfully.", status = HttpStatusCode.Created)
         }
 
         delete("/{id?}/delete") {
