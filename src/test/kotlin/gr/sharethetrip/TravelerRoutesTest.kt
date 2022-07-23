@@ -86,7 +86,6 @@ class TravelerRoutesTest {
         }
         val response = client.delete("/travelers/$invalidId/delete") {
             contentType(ContentType.Application.Json)
-            setBody(TravelerDao.createTravelerObject("100", "Jet", "Brains"))
         }
         assertEquals(HttpStatusCode.NotFound, response.status)
         assertEquals("Traveler not Found.", response.bodyAsText())
