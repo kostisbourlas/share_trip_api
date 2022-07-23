@@ -12,6 +12,10 @@ object TravelerDao {
 
     }
 
+    fun createTravelerObject(id: String, firstName: String, lastName: String): Traveler {
+        return Traveler(id, firstName, lastName)
+    }
+
     fun getTravelers(): MutableList<Traveler> {
         return this.travelerStorage
     }
