@@ -8,6 +8,7 @@ import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.testing.*
 
+
 class TravelerRoutesTest {
     @Test
     fun testGetTravelers() = testApplication {
@@ -22,6 +23,7 @@ class TravelerRoutesTest {
 
         assertEquals(HttpStatusCode.OK, response.status)
     }
+
     @Test
     fun testGetTravelerWithNoId() = testApplication {
         val response: HttpResponse = client.get("/travelers/")
@@ -29,6 +31,7 @@ class TravelerRoutesTest {
         assertEquals(HttpStatusCode.BadRequest, response.status)
         assertEquals("Missing id.", response.bodyAsText())
     }
+
     @Test
     fun testGetTravelerWithNInvalidId() = testApplication {
         val invalidId: String = "5000"
@@ -37,6 +40,7 @@ class TravelerRoutesTest {
         assertEquals(HttpStatusCode.NotFound, response.status)
         assertEquals("No traveler with id $invalidId.", response.bodyAsText())
     }
+
     @Test
     fun testCreateTraveler() = testApplication {
         val client = createClient {
@@ -71,6 +75,7 @@ class TravelerRoutesTest {
         assertEquals(HttpStatusCode.Accepted, response.status)
         assertEquals("Traveler deleted successfully.", response.bodyAsText())
     }
+
     @Test
     fun testDeleteTravelerWIthInvalidId() = testApplication {
         val invalidId: String = "5000"
