@@ -65,9 +65,9 @@ fun Route.tripRouting() {
             try {
                 trip.addPassenger(passengerId)
             } catch (e: NotAvailableSeatsException) {
-                return@post call.respondText(e.toString(), status = HttpStatusCode.OK)
+                return@post call.respondText(e.toString(), status = HttpStatusCode.BadRequest)
             } catch (e: InvalidPassengerException) {
-                return@post call.respondText(e.toString(), status = HttpStatusCode.OK)
+                return@post call.respondText(e.toString(), status = HttpStatusCode.BadRequest)
             }
 
             return@post call.respondText("Traveler has been added to the trip successfully.")
@@ -81,13 +81,13 @@ fun Route.tripRouting() {
                 "Trip not found.", status = HttpStatusCode.NotFound
             )
             val passenger = TravelerDao.getTraveler(passengerId) ?: return@post call.respondText(
-                "Trip not found.", status = HttpStatusCode.NotFound
+                "Passenger not found.", status = HttpStatusCode.NotFound
             )
 
             try {
                 trip.removePassenger(passenger)
             } catch (e: InvalidPassengerException) {
-                return@post call.respondText(e.toString(), status = HttpStatusCode.OK)
+                return@post call.respondText(e.toString(), status = HttpStatusCode.BadRequest)
             }
 
             return@post call.respondText("Traveler has been removed from the trip successfully.")
