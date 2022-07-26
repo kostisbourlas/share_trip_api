@@ -38,7 +38,6 @@ class TripRoutesTest {
         val response = client.get("/trips/")
 
         assertEquals(HttpStatusCode.BadRequest, response.status)
-        assertEquals("Missing Id.", response.bodyAsText())
     }
 
     @Test
@@ -53,7 +52,7 @@ class TripRoutesTest {
             contentType(ContentType.Application.Json)
             setBody(
                 TripDao.createTripObject(
-                    "100", "1", "Athens", "Pilio", "18/12/2022", 3
+                    100, "1", "Athens", "Pilio", "18/12/2022", 3
                 )
             )
         }
@@ -74,7 +73,7 @@ class TripRoutesTest {
             contentType(ContentType.Application.Json)
             setBody(
                 TripDao.createTripObject(
-                    "100", driverId, "Athens", "Pilio", "18/12/2022", 3
+                    100, driverId, "Athens", "Pilio", "18/12/2022", 3
                 )
             )
         }
@@ -89,7 +88,7 @@ class TripRoutesTest {
 
     @Test
     fun testDeleteTrip() = testApplication {
-        val tripId = "100"
+        val tripId = 100
         val client = createClient {
             install(ContentNegotiation) {
                 json()
@@ -174,7 +173,7 @@ class TripRoutesTest {
             contentType(ContentType.Application.Json)
             setBody(
                 TripDao.createTripObject(
-                    "100", "1", "Athens", "Pilio", "18/12/2022", 0
+                    100, "1", "Athens", "Pilio", "18/12/2022", 0
                 )
             )
         }
@@ -208,7 +207,7 @@ class TripRoutesTest {
 
     @Test
     fun testAddPassengerWithInvalidTripId() = testApplication {
-        val invalidTripId = "invalidTripId"
+        val invalidTripId = 50000
         val client = createClient {
             install(ContentNegotiation) {
                 json()
@@ -275,7 +274,7 @@ class TripRoutesTest {
 
     @Test
     fun testRemovePassengerInvalidTripId() = testApplication {
-        val invalidTripId = "invalidPassengerId"
+        val invalidTripId = 50000
         val client = createClient {
             install(ContentNegotiation) {
                 json()

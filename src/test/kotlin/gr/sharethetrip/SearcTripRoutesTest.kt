@@ -1,6 +1,5 @@
 package gr.sharethetrip
 
-import io.ktor.client.call.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
@@ -27,9 +26,8 @@ class SearchTripRoutesTest {
         assertEquals(HttpStatusCode.OK, response.status)
         assertEquals(
             """
-                [{"id":"1","driverId":"1","departureAddress":"Athens","arrivalAddress":"Pilio","departureDatetime":"15/08/2022 12:00","availableSeats":4,"description":null}]
-            """.trimIndent(),
-            response.bodyAsText()
+                [{"id":1,"driverId":"1","departureAddress":"Athens","arrivalAddress":"Pilio","departureDatetime":"15/08/2022 12:00","availableSeats":4,"description":null}]
+            """.trimIndent(), response.bodyAsText()
         )
     }
 }

@@ -3,6 +3,7 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.routing.*
 import io.ktor.server.response.*
+import io.ktor.server.util.*
 
 
 fun Route.tripRouting() {
@@ -12,9 +13,7 @@ fun Route.tripRouting() {
         }
 
         get("/{id?}") {
-            val id = call.parameters["id"] ?: return@get call.respondText(
-                "Missing Id.", status = HttpStatusCode.BadRequest
-            )
+            val id = call.parameters.getOrFail<Int>("id").toInt()
             val trip = TripDao.getTrip(id) ?: return@get call.respondText(
                 "Trip not found.", status = HttpStatusCode.NotFound
             )
@@ -43,7 +42,7 @@ fun Route.tripRouting() {
         }
 
         delete("/{id?}/delete") {
-            val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
+            val id = call.parameters.getOrFail<Int>("id").toInt()
 
             if (!TripDao.deleteTrip(id)) {
                 call.respondText("Trip not found.", status = HttpStatusCode.NotFound)
@@ -51,8 +50,10 @@ fun Route.tripRouting() {
             call.respondText("Trip deleted successfully.", status = HttpStatusCode.OK)
         }
 
-        post("/{tripId?}/add-passenger/{passengerId}") {
-            val tripId = call.parameters["tripId"] ?: return@post call.respond(HttpStatusCode.BadRequest)
+        post("/{tripId}/add-passenger/{passengerId}") {
+            val tripId = call.parameters.getOrFail<Int>("tripId").toInt()
+            println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+
             val passengerId = call.parameters["passengerId"] ?: return@post call.respond(HttpStatusCode.BadRequest)
 
             val trip = TripDao.getTrip(tripId) ?: return@post call.respondText(
@@ -69,12 +70,11 @@ fun Route.tripRouting() {
             } catch (e: InvalidPassengerException) {
                 return@post call.respondText(e.toString(), status = HttpStatusCode.BadRequest)
             }
-
             return@post call.respondText("Traveler has been added to the trip successfully.")
         }
 
         post("/{tripId?}/remove-passenger/{passengerId}") {
-            val tripId = call.parameters["tripId"] ?: return@post call.respond(HttpStatusCode.BadRequest)
+            val tripId = call.parameters.getOrFail<Int>("tripId").toInt()
             val passengerId = call.parameters["passengerId"] ?: return@post call.respond(HttpStatusCode.BadRequest)
 
             val trip = TripDao.getTrip(tripId) ?: return@post call.respondText(

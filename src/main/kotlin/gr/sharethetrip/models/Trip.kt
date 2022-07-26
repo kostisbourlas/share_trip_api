@@ -3,7 +3,7 @@ import kotlinx.serialization.Transient
 
 @Serializable
 data class Trip(
-    val id: String,
+    val id: Int,
     val driverId: String,
     val departureAddress: String,
     val arrivalAddress: String,
@@ -40,7 +40,7 @@ object TripDao {
     init {
         tripStorage.add(
             Trip(
-                id = "1",
+                id = 1,
                 driverId = "1",
                 departureAddress = "Athens",
                 arrivalAddress = "Pilio",
@@ -51,7 +51,7 @@ object TripDao {
     }
 
     fun createTripObject(
-        id: String,
+        id: Int,
         driverId: String,
         departureAddress: String,
         arrivalAddress: String,
@@ -68,12 +68,12 @@ object TripDao {
         return this.tripStorage
     }
 
-    fun getTrip(id: String): Trip? {
+    fun getTrip(id: Int): Trip? {
         return this.tripStorage.find { it.id == id }
     }
 
     fun createTrip(
-        id: String,
+        id: Int,
         driverId: String,
         departureAddress: String,
         arrivalAddress: String,
@@ -94,7 +94,7 @@ object TripDao {
         )
     }
 
-    fun deleteTrip(id: String): Boolean {
+    fun deleteTrip(id: Int): Boolean {
         return this.tripStorage.removeIf { it.id == id }
     }
 
