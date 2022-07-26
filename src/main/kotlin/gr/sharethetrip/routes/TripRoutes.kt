@@ -31,7 +31,7 @@ fun Route.tripRouting() {
                     trip.driverId,
                     trip.departureAddress,
                     trip.arrivalAddress,
-                    trip.departureDatetime,
+                    trip.departureDate,
                     trip.availableSeats,
                     trip.description
                 )

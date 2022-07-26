@@ -7,7 +7,7 @@ data class Trip(
     val driverId: String,
     val departureAddress: String,
     val arrivalAddress: String,
-    val departureDatetime: String,
+    val departureDate: String,
     var availableSeats: Int,
     @Transient private val passengersIds: MutableList<String> = mutableListOf(),
     val description: String? = null,
@@ -44,7 +44,7 @@ object TripDao {
                 driverId = "1",
                 departureAddress = "Athens",
                 arrivalAddress = "Pilio",
-                departureDatetime = "15/08/2022 12:00",
+                departureDate = "15/08/2022 12:00",
                 availableSeats = 4
             )
         )
@@ -55,12 +55,12 @@ object TripDao {
         driverId: String,
         departureAddress: String,
         arrivalAddress: String,
-        departureDatetime: String,
+        departureDate: String,
         availableSeats: Int,
         description: String? = null
     ): Trip {
         return Trip(
-            id, driverId, departureAddress, arrivalAddress, departureDatetime, availableSeats, description = description
+            id, driverId, departureAddress, arrivalAddress, departureDate, availableSeats, description = description
         )
     }
 
@@ -77,7 +77,7 @@ object TripDao {
         driverId: String,
         departureAddress: String,
         arrivalAddress: String,
-        departureDatetime: String,
+        departureDate: String,
         availableSeats: Int,
         description: String? = null,
     ): Boolean {
@@ -87,7 +87,7 @@ object TripDao {
                 driverId = driverId,
                 departureAddress = departureAddress,
                 arrivalAddress = arrivalAddress,
-                departureDatetime = departureDatetime,
+                departureDate = departureDate,
                 availableSeats = availableSeats,
                 description = description,
             )
