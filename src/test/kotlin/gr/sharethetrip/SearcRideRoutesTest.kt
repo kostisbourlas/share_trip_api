@@ -9,18 +9,18 @@ import io.ktor.server.testing.*
 import kotlin.test.*
 
 
-class SearchTripRoutesTest {
+class SearchRideRoutesTest {
     @Test
-    fun searchTripsByDepartureAndArrivalAddresses() = testApplication {
+    fun searchRidesByDepartureAndArrivalAddresses() = testApplication {
         val client = createClient {
             install(ContentNegotiation) {
                 json()
             }
         }
 
-        val response = client.get("search/trips") {
+        val response = client.get("search/rides") {
             contentType(ContentType.Application.Json)
-            setBody(SearchTripDao.createSearchTripObject("Athens", "Pilio"))
+            setBody(SearchRideDao.createSearchRideObject("Athens", "Pilio"))
         }
 
         assertEquals(HttpStatusCode.OK, response.status)

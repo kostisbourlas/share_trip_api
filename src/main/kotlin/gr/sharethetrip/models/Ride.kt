@@ -3,7 +3,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 
 @Serializable
-data class Trip(
+data class Ride(
     val id: Int,
     val driverId: String,
     val departureAddress: String,
@@ -15,13 +15,13 @@ data class Trip(
 ) {
     fun addPassenger(passengerId: String) {
         if (this.driverId == passengerId) {
-            throw InvalidPassengerException("You cannot be passenger as long as you are the driver of this trip.")
+            throw InvalidPassengerException("You cannot be passenger as long as you are the driver of this ride.")
         }
         if (this.availableSeats <= 0) {
-            throw NotAvailableSeatsException("There is no available seat in this trip.")
+            throw NotAvailableSeatsException("There is no available seat in this ride.")
         }
         if (this.passengersIds.find { it == passengerId } != null) {
-            throw InvalidPassengerException("Passenger has already been added to this trip.")
+            throw InvalidPassengerException("Passenger has already been added to this ride.")
         }
         this.passengersIds.add(passengerId)
         this.availableSeats--
@@ -29,18 +29,18 @@ data class Trip(
 
     fun removePassenger(passenger: Traveler) {
         if (!this.passengersIds.removeIf { it == passenger.id }) {
-            throw InvalidPassengerException("Passenger does not belong to this trip.")
+            throw InvalidPassengerException("Passenger does not belong to this ride.")
         }
         this.availableSeats++
     }
 }
 
-object TripDao {
-    var tripStorage: MutableList<Trip> = mutableListOf()
+object RideDao {
+    var rideStorage: MutableList<Ride> = mutableListOf()
 
     init {
-        tripStorage.add(
-            Trip(
+        rideStorage.add(
+            Ride(
                 id = 1,
                 driverId = "1",
                 departureAddress = "Athens",
@@ -51,7 +51,7 @@ object TripDao {
         )
     }
 
-    fun createTripObject(
+    fun createRideObject(
         id: Int,
         driverId: String,
         departureAddress: String,
@@ -59,21 +59,21 @@ object TripDao {
         departureDate: LocalDate,
         availableSeats: Int,
         description: String? = null
-    ): Trip {
-        return Trip(
+    ): Ride {
+        return Ride(
             id, driverId, departureAddress, arrivalAddress, departureDate, availableSeats, description = description
         )
     }
 
-    fun getTrips(): MutableList<Trip> {
-        return this.tripStorage
+    fun getRides(): MutableList<Ride> {
+        return this.rideStorage
     }
 
-    fun getTrip(id: Int): Trip? {
-        return this.tripStorage.find { it.id == id }
+    fun getRide(id: Int): Ride? {
+        return this.rideStorage.find { it.id == id }
     }
 
-    fun createTrip(
+    fun createRide(
         id: Int,
         driverId: String,
         departureAddress: String,
@@ -82,8 +82,8 @@ object TripDao {
         availableSeats: Int,
         description: String? = null,
     ): Boolean {
-        return this.tripStorage.add(
-            Trip(
+        return this.rideStorage.add(
+            Ride(
                 id = id,
                 driverId = driverId,
                 departureAddress = departureAddress,
@@ -95,12 +95,12 @@ object TripDao {
         )
     }
 
-    fun deleteTrip(id: Int): Boolean {
-        return this.tripStorage.removeIf { it.id == id }
+    fun deleteRide(id: Int): Boolean {
+        return this.rideStorage.removeIf { it.id == id }
     }
 
-    fun searchTrip(departureAddress: String?, arrivalAddress: String?): List<Trip> {
-        return this.tripStorage.filter {
+    fun searchRide(departureAddress: String?, arrivalAddress: String?): List<Ride> {
+        return this.rideStorage.filter {
             it.departureAddress == departureAddress && it.arrivalAddress == arrivalAddress
         }
     }

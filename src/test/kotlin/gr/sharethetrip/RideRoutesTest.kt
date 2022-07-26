@@ -1,5 +1,6 @@
 package gr.sharethetrip
 
+import RideDao
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
@@ -10,59 +11,59 @@ import kotlinx.datetime.LocalDate
 import kotlin.test.*
 
 
-class TripRoutesTest {
+class RideRoutesTest {
     @Test
-    fun testGetAllTrips() = testApplication {
-        val response = client.get("/trips")
+    fun testGetAllRides() = testApplication {
+        val response = client.get("/rides")
 
         assertEquals(HttpStatusCode.OK, response.status)
     }
 
     @Test
-    fun testGetTripById() = testApplication {
-        val response = client.get("/trips/1")
+    fun testGetRideById() = testApplication {
+        val response = client.get("/rides/1")
 
         assertEquals(HttpStatusCode.OK, response.status)
     }
 
     @Test
-    fun testGetTripWithInvalidId() = testApplication {
+    fun testGetRideWithInvalidId() = testApplication {
         val invalidId: String = "5000"
-        val response = client.get("/trips/$invalidId")
+        val response = client.get("/rides/$invalidId")
 
         assertEquals(HttpStatusCode.NotFound, response.status)
-        assertEquals("Trip not found.", response.bodyAsText())
+        assertEquals("Ride not found.", response.bodyAsText())
     }
 
     @Test
-    fun testGetTripMissingId() = testApplication {
-        val response = client.get("/trips/")
+    fun testGetRideMissingId() = testApplication {
+        val response = client.get("/rides/")
 
         assertEquals(HttpStatusCode.BadRequest, response.status)
     }
 
     @Test
-    fun testCreateTrip() = testApplication {
+    fun testCreateRide() = testApplication {
         val client = createClient {
             install(ContentNegotiation) {
                 json()
             }
         }
 
-        val response = client.post("/trips/create") {
+        val response = client.post("/rides/create") {
             contentType(ContentType.Application.Json)
             setBody(
-                TripDao.createTripObject(
+                RideDao.createRideObject(
                     100, "1", "Athens", "Pilio", LocalDate(2022, 8, 12), 3
                 )
             )
         }
         assertEquals(HttpStatusCode.Created, response.status)
-        assertEquals("Trip created successfully.", response.bodyAsText())
+        assertEquals("Ride created successfully.", response.bodyAsText())
     }
 
     @Test
-    fun testCreateTripInvalidDriverId() = testApplication {
+    fun testCreateRideInvalidDriverId() = testApplication {
         val driverId = "Invalid"
         val client = createClient {
             install(ContentNegotiation) {
@@ -70,10 +71,10 @@ class TripRoutesTest {
             }
         }
 
-        val response = client.post("/trips/create") {
+        val response = client.post("/rides/create") {
             contentType(ContentType.Application.Json)
             setBody(
-                TripDao.createTripObject(
+                RideDao.createRideObject(
                     100, driverId, "Athens", "Pilio", LocalDate(2022, 8, 12), 3
                 )
             )
@@ -83,38 +84,38 @@ class TripRoutesTest {
     }
 
     @Test
-    fun testCreateTripUnableToSave() = testApplication {
+    fun testCreateRideUnableToSave() = testApplication {
         // Not implemented yet
     }
 
     @Test
-    fun testDeleteTrip() = testApplication {
-        val tripId = 100
+    fun testDeleteRide() = testApplication {
+        val rideId = 100
         val client = createClient {
             install(ContentNegotiation) {
                 json()
             }
         }
 
-        // Create a new Trip in storage before deleting it.
-        client.post("/trips/create") {
+        // Create a new Ride in storage before deleting it.
+        client.post("/rides/create") {
             contentType(ContentType.Application.Json)
             setBody(
-                TripDao.createTripObject(
-                    tripId, "1", "Athens", "Pilio", LocalDate(2022, 8, 12), 3
+                RideDao.createRideObject(
+                    rideId, "1", "Athens", "Pilio", LocalDate(2022, 8, 12), 3
                 )
             )
         }
 
-        val response = client.delete("/trips/$tripId/delete") {
+        val response = client.delete("/rides/$rideId/delete") {
             contentType(ContentType.Application.Json)
         }
         assertEquals(HttpStatusCode.OK, response.status)
-        assertEquals("Trip deleted successfully.", response.bodyAsText())
+        assertEquals("Ride deleted successfully.", response.bodyAsText())
     }
 
     @Test
-    fun testDeleteTripWIthInvalidId() = testApplication {
+    fun testDeleteRideWIthInvalidId() = testApplication {
         val invalidId: String = "5000"
         val client = createClient {
             install(ContentNegotiation) {
@@ -122,42 +123,42 @@ class TripRoutesTest {
             }
         }
 
-        val response = client.delete("/trips/$invalidId/delete") {
+        val response = client.delete("/rides/$invalidId/delete") {
             contentType(ContentType.Application.Json)
         }
         assertEquals(HttpStatusCode.NotFound, response.status)
-        assertEquals("Trip not found.", response.bodyAsText())
+        assertEquals("Ride not found.", response.bodyAsText())
     }
 
     @Test
-    fun testAddPassengerToTrip() = testApplication {
+    fun testAddPassengerToRide() = testApplication {
         val client = createClient {
             install(ContentNegotiation) {
                 json()
             }
         }
 
-        val response = client.post("/trips/1/add-passenger/2") {
+        val response = client.post("/rides/1/add-passenger/2") {
             contentType(ContentType.Application.Json)
         }
         assertEquals(HttpStatusCode.OK, response.status)
-        assertEquals("Traveler has been added to the trip successfully.", response.bodyAsText())
+        assertEquals("Traveler has been added to the ride successfully.", response.bodyAsText())
     }
 
     @Test
-    fun testAddDriverToTripAsPassenger() = testApplication {
+    fun testAddDriverToRideAsPassenger() = testApplication {
         val client = createClient {
             install(ContentNegotiation) {
                 json()
             }
         }
 
-        val response = client.post("/trips/1/add-passenger/1") {
+        val response = client.post("/rides/1/add-passenger/1") {
             contentType(ContentType.Application.Json)
         }
         assertEquals(HttpStatusCode.BadRequest, response.status)
         assertContains(
-            response.bodyAsText(), "You cannot be passenger as long as you are the driver of this trip."
+            response.bodyAsText(), "You cannot be passenger as long as you are the driver of this ride."
         )
     }
 
@@ -169,57 +170,57 @@ class TripRoutesTest {
             }
         }
 
-        // Create trip with no available seats
-        client.post("/trips/create") {
+        // Create Ride with no available seats
+        client.post("/rides/create") {
             contentType(ContentType.Application.Json)
             setBody(
-                TripDao.createTripObject(
+                RideDao.createRideObject(
                     100, "1", "Athens", "Pilio", LocalDate(2022, 8, 12), 0
                 )
             )
         }
-        val response = client.post("/trips/100/add-passenger/2") {
+        val response = client.post("/rides/100/add-passenger/2") {
             contentType(ContentType.Application.Json)
         }
 
         assertEquals(HttpStatusCode.BadRequest, response.status)
-        assertContains(response.bodyAsText(), "There is no available seat in this trip.")
+        assertContains(response.bodyAsText(), "There is no available seat in this ride.")
     }
 
     @Test
-    fun testAddPassengerToTripTwice() = testApplication {
+    fun testAddPassengerToRideTwice() = testApplication {
         val client = createClient {
             install(ContentNegotiation) {
                 json()
             }
         }
 
-        client.post("/trips/1/add-passenger/2") {
+        client.post("/rides/1/add-passenger/2") {
             contentType(ContentType.Application.Json)
         }
 
-        val response = client.post("/trips/1/add-passenger/2") {
+        val response = client.post("/rides/1/add-passenger/2") {
             contentType(ContentType.Application.Json)
         }
 
         assertEquals(HttpStatusCode.BadRequest, response.status)
-        assertContains(response.bodyAsText(), "Passenger has already been added to this trip.")
+        assertContains(response.bodyAsText(), "Passenger has already been added to this ride.")
     }
 
     @Test
-    fun testAddPassengerWithInvalidTripId() = testApplication {
-        val invalidTripId = 50000
+    fun testAddPassengerWithInvalidRideId() = testApplication {
+        val invalidRideId = 50000
         val client = createClient {
             install(ContentNegotiation) {
                 json()
             }
         }
 
-        val response = client.post("/trips/$invalidTripId/add-passenger/2") {
+        val response = client.post("/rides/$invalidRideId/add-passenger/2") {
             contentType(ContentType.Application.Json)
         }
         assertEquals(HttpStatusCode.NotFound, response.status)
-        assertEquals("Trip not found.", response.bodyAsText())
+        assertEquals("Ride not found.", response.bodyAsText())
     }
 
     @Test
@@ -231,7 +232,7 @@ class TripRoutesTest {
             }
         }
 
-        val response = client.post("/trips/1/add-passenger/$invalidPassengerId") {
+        val response = client.post("/rides/1/add-passenger/$invalidPassengerId") {
             contentType(ContentType.Application.Json)
         }
         assertEquals(HttpStatusCode.NotFound, response.status)
@@ -239,54 +240,54 @@ class TripRoutesTest {
     }
 
     @Test
-    fun testRemovePassengerFromTrip() = testApplication {
+    fun testRemovePassengerFromRide() = testApplication {
         val client = createClient {
             install(ContentNegotiation) {
                 json()
             }
         }
-        // Add a passenger to the trip before removing them
-        client.post("/trips/1/add-passenger/2") {
+        // Add a passenger to the ride before removing them
+        client.post("/rides/1/add-passenger/2") {
             contentType(ContentType.Application.Json)
         }
 
-        val response = client.post("/trips/1/remove-passenger/2") {
+        val response = client.post("/rides/1/remove-passenger/2") {
             contentType(ContentType.Application.Json)
         }
         assertEquals(HttpStatusCode.OK, response.status)
-        assertEquals("Traveler has been removed from the trip successfully.", response.bodyAsText())
+        assertEquals("Traveler has been removed from the ride successfully.", response.bodyAsText())
     }
 
     @Test
-    fun testRemovePassengerThatDoesNotBelongToTrip() = testApplication {
+    fun testRemovePassengerThatDoesNotBelongToRide() = testApplication {
         val client = createClient {
             install(ContentNegotiation) {
                 json()
             }
         }
 
-        val response = client.post("/trips/1/remove-passenger/2") {
+        val response = client.post("/rides/1/remove-passenger/2") {
             contentType(ContentType.Application.Json)
         }
 
         assertEquals(HttpStatusCode.BadRequest, response.status)
-        assertContains(response.bodyAsText(), "Passenger does not belong to this trip.")
+        assertContains(response.bodyAsText(), "Passenger does not belong to this ride.")
     }
 
     @Test
-    fun testRemovePassengerInvalidTripId() = testApplication {
-        val invalidTripId = 50000
+    fun testRemovePassengerInvalidRideId() = testApplication {
+        val invalidRideId = 50000
         val client = createClient {
             install(ContentNegotiation) {
                 json()
             }
         }
 
-        val response = client.post("/trips/$invalidTripId/remove-passenger/2") {
+        val response = client.post("/rides/$invalidRideId/remove-passenger/2") {
             contentType(ContentType.Application.Json)
         }
         assertEquals(HttpStatusCode.NotFound, response.status)
-        assertEquals("Trip not found.", response.bodyAsText())
+        assertEquals("Ride not found.", response.bodyAsText())
     }
 
     @Test
@@ -298,7 +299,7 @@ class TripRoutesTest {
             }
         }
 
-        val response = client.post("/trips/1/remove-passenger/$invalidPassengerId") {
+        val response = client.post("/rides/1/remove-passenger/$invalidPassengerId") {
             contentType(ContentType.Application.Json)
         }
         assertEquals(HttpStatusCode.NotFound, response.status)
