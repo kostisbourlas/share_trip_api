@@ -6,6 +6,7 @@ import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.testing.*
+import kotlinx.datetime.LocalDate
 import kotlin.test.*
 
 
@@ -52,7 +53,7 @@ class TripRoutesTest {
             contentType(ContentType.Application.Json)
             setBody(
                 TripDao.createTripObject(
-                    100, "1", "Athens", "Pilio", "18/12/2022", 3
+                    100, "1", "Athens", "Pilio", LocalDate(2022, 8, 12), 3
                 )
             )
         }
@@ -73,7 +74,7 @@ class TripRoutesTest {
             contentType(ContentType.Application.Json)
             setBody(
                 TripDao.createTripObject(
-                    100, driverId, "Athens", "Pilio", "18/12/2022", 3
+                    100, driverId, "Athens", "Pilio", LocalDate(2022, 8, 12), 3
                 )
             )
         }
@@ -100,7 +101,7 @@ class TripRoutesTest {
             contentType(ContentType.Application.Json)
             setBody(
                 TripDao.createTripObject(
-                    tripId, "1", "Athens", "Pilio", "18/12/2022", 3
+                    tripId, "1", "Athens", "Pilio", LocalDate(2022, 8, 12), 3
                 )
             )
         }
@@ -173,7 +174,7 @@ class TripRoutesTest {
             contentType(ContentType.Application.Json)
             setBody(
                 TripDao.createTripObject(
-                    100, "1", "Athens", "Pilio", "18/12/2022", 0
+                    100, "1", "Athens", "Pilio", LocalDate(2022, 8, 12), 0
                 )
             )
         }

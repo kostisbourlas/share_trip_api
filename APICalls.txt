@@ -13,7 +13,7 @@ curl -X DELETE  --location "http://127.0.0.1:8080/travelers/100/delete" -H "Cont
 curl -X GET --location http://127.0.0.1:8080/trips
 curl -X GET --location http://127.0.0.1:8080/trips/1
 
-curl -X POST --location "http://127.0.0.1:8080/trips/create" -H "Content-Type: application/json" -d '{"id": 100, "driverId": "1", "departureAddress": "Pilio", "arrivalAddress": "Athens", "departureDate": "01/09/2022 11:30", "availableSeats": "3"}'
+curl -X POST --location "http://127.0.0.1:8080/trips/create" -H "Content-Type: application/json" -d '{"id": 100, "driverId": "1", "departureAddress": "Pilio", "arrivalAddress": "Athens", "departureDate": "2022-08-12", "availableSeats": "3"}'
 
 curl -X DELETE --location "http://127.0.0.1:8080/trips/100/delete"
 

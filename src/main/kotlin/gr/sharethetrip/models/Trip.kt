@@ -1,3 +1,4 @@
+import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 
@@ -7,7 +8,7 @@ data class Trip(
     val driverId: String,
     val departureAddress: String,
     val arrivalAddress: String,
-    val departureDate: String,
+    val departureDate: LocalDate,
     var availableSeats: Int,
     @Transient private val passengersIds: MutableList<String> = mutableListOf(),
     val description: String? = null,
@@ -44,7 +45,7 @@ object TripDao {
                 driverId = "1",
                 departureAddress = "Athens",
                 arrivalAddress = "Pilio",
-                departureDate = "15/08/2022 12:00",
+                departureDate = LocalDate(2022, 8, 12),
                 availableSeats = 4
             )
         )
@@ -55,7 +56,7 @@ object TripDao {
         driverId: String,
         departureAddress: String,
         arrivalAddress: String,
-        departureDate: String,
+        departureDate: LocalDate,
         availableSeats: Int,
         description: String? = null
     ): Trip {
@@ -77,7 +78,7 @@ object TripDao {
         driverId: String,
         departureAddress: String,
         arrivalAddress: String,
-        departureDate: String,
+        departureDate: LocalDate,
         availableSeats: Int,
         description: String? = null,
     ): Boolean {

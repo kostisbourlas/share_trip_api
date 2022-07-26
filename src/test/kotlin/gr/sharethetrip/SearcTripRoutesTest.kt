@@ -26,7 +26,7 @@ class SearchTripRoutesTest {
         assertEquals(HttpStatusCode.OK, response.status)
         assertEquals(
             """
-                [{"id":1,"driverId":"1","departureAddress":"Athens","arrivalAddress":"Pilio","departureDate":"15/08/2022 12:00","availableSeats":4,"description":null}]
+                [{"id":1,"driverId":"1","departureAddress":"Athens","arrivalAddress":"Pilio","departureDate":"2022-08-12","availableSeats":4,"description":null}]
             """.trimIndent(), response.bodyAsText()
         )
     }
