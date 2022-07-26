@@ -51,8 +51,6 @@ fun Route.rideRouting() {
 
         post("/{rideId}/add-passenger/{passengerId}") {
             val rideId = call.parameters.getOrFail<Int>("rideId").toInt()
-            println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-
             val passengerId = call.parameters["passengerId"] ?: return@post call.respond(HttpStatusCode.BadRequest)
 
             val ride = RideDao.getRide(rideId) ?: return@post call.respondText(
@@ -69,7 +67,7 @@ fun Route.rideRouting() {
             } catch (e: InvalidPassengerException) {
                 return@post call.respondText(e.toString(), status = HttpStatusCode.BadRequest)
             }
-            return@post call.respondText("Traveler has been added to the ride successfully.")
+            return@post call.respondText("Passenger has been added to the ride successfully.")
         }
 
         post("/{rideId?}/remove-passenger/{passengerId}") {
@@ -89,7 +87,7 @@ fun Route.rideRouting() {
                 return@post call.respondText(e.toString(), status = HttpStatusCode.BadRequest)
             }
 
-            return@post call.respondText("Traveler has been removed from the ride successfully.")
+            return@post call.respondText("Passenger has been removed from the ride successfully.")
         }
     }
 }

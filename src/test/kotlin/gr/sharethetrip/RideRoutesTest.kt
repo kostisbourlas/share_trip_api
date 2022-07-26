@@ -142,7 +142,7 @@ class RideRoutesTest {
             contentType(ContentType.Application.Json)
         }
         assertEquals(HttpStatusCode.OK, response.status)
-        assertEquals("Traveler has been added to the ride successfully.", response.bodyAsText())
+        assertEquals("Passenger has been added to the ride successfully.", response.bodyAsText())
     }
 
     @Test
@@ -255,7 +255,7 @@ class RideRoutesTest {
             contentType(ContentType.Application.Json)
         }
         assertEquals(HttpStatusCode.OK, response.status)
-        assertEquals("Traveler has been removed from the ride successfully.", response.bodyAsText())
+        assertEquals("Passenger has been removed from the ride successfully.", response.bodyAsText())
     }
 
     @Test
