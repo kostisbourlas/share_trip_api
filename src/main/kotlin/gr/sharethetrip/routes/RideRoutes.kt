@@ -51,7 +51,7 @@ fun Route.rideRouting() {
 
         post("/{rideId}/add-passenger/{passengerId}") {
             val rideId = call.parameters.getOrFail<Int>("rideId").toInt()
-            val passengerId = call.parameters["passengerId"] ?: return@post call.respond(HttpStatusCode.BadRequest)
+            val passengerId = call.parameters.getOrFail<Int>("passengerId").toInt()
 
             val ride = RideDao.getRide(rideId) ?: return@post call.respondText(
                 "Ride not found.", status = HttpStatusCode.NotFound
@@ -72,7 +72,7 @@ fun Route.rideRouting() {
 
         post("/{rideId?}/remove-passenger/{passengerId}") {
             val rideId = call.parameters.getOrFail<Int>("rideId").toInt()
-            val passengerId = call.parameters["passengerId"] ?: return@post call.respond(HttpStatusCode.BadRequest)
+            val passengerId = call.parameters.getOrFail<Int>("passengerId").toInt()
 
             val ride = RideDao.getRide(rideId) ?: return@post call.respondText(
                 "Ride not found.", status = HttpStatusCode.NotFound

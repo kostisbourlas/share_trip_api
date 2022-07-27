@@ -1,9 +1,9 @@
 ############# Travelers API #############
 
 curl -X GET --location http://127.0.0.1:8080/travelers
-    curl -X GET --location http://127.0.0.1:8080/travelers/1
+curl -X GET --location http://127.0.0.1:8080/travelers/1
 
-curl -X POST --location "http://127.0.0.1:8080/travelers/create" -H "Content-Type: application/json" -d '{"id": "100", "firstName": "Joe", "lastName": "Smith"}'
+curl -X POST --location "http://127.0.0.1:8080/travelers/create" -H "Content-Type: application/json" -d '{"id": 100, "firstName": "Joe", "lastName": "Smith"}'
 
 curl -X DELETE  --location "http://127.0.0.1:8080/travelers/100/delete" -H "Content-Type: application/json"
 
@@ -13,7 +13,7 @@ curl -X DELETE  --location "http://127.0.0.1:8080/travelers/100/delete" -H "Cont
 curl -X GET --location http://127.0.0.1:8080/rides
 curl -X GET --location http://127.0.0.1:8080/rides/1
 
-curl -X POST --location "http://127.0.0.1:8080/rides/create" -H "Content-Type: application/json" -d '{"id": 100, "driverId": "1", "departureAddress": "Pilio", "arrivalAddress": "Athens", "departureDate": "2022-08-12", "availableSeats": "3"}'
+curl -X POST --location "http://127.0.0.1:8080/rides/create" -H "Content-Type: application/json" -d '{"id": 100, "driverId": 1, "departureAddress": "Pilio", "arrivalAddress": "Athens", "departureDate": "2022-08-12", "availableSeats": 3}'
 
 curl -X DELETE --location "http://127.0.0.1:8080/rides/100/delete"
 

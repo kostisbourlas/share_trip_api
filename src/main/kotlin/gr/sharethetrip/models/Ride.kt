@@ -5,15 +5,15 @@ import kotlinx.serialization.Transient
 @Serializable
 data class Ride(
     val id: Int,
-    val driverId: String,
+    val driverId: Int,
     val departureAddress: String,
     val arrivalAddress: String,
     val departureDate: LocalDate,
     var availableSeats: Int,
-    @Transient private val passengersIds: MutableList<String> = mutableListOf(),
+    @Transient private val passengersIds: MutableList<Int> = mutableListOf(),
     val description: String? = null,
 ) {
-    fun addPassenger(passengerId: String) {
+    fun addPassenger(passengerId: Int) {
         if (this.driverId == passengerId) {
             throw InvalidPassengerException("You cannot be passenger as long as you are the driver of this ride.")
         }
@@ -42,7 +42,7 @@ object RideDao {
         rideStorage.add(
             Ride(
                 id = 1,
-                driverId = "1",
+                driverId = 1,
                 departureAddress = "Athens",
                 arrivalAddress = "Pilio",
                 departureDate = LocalDate(2022, 8, 12),
@@ -53,7 +53,7 @@ object RideDao {
 
     fun createRideObject(
         id: Int,
-        driverId: String,
+        driverId: Int,
         departureAddress: String,
         arrivalAddress: String,
         departureDate: LocalDate,
@@ -75,7 +75,7 @@ object RideDao {
 
     fun createRide(
         id: Int,
-        driverId: String,
+        driverId: Int,
         departureAddress: String,
         arrivalAddress: String,
         departureDate: LocalDate,

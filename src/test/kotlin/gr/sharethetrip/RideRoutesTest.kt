@@ -8,7 +8,9 @@ import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.testing.*
 import kotlinx.datetime.LocalDate
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertContains
+import kotlin.test.assertEquals
 
 
 class RideRoutesTest {
@@ -54,7 +56,7 @@ class RideRoutesTest {
             contentType(ContentType.Application.Json)
             setBody(
                 RideDao.createRideObject(
-                    100, "1", "Athens", "Pilio", LocalDate(2022, 8, 12), 3
+                    100, 1, "Athens", "Pilio", LocalDate(2022, 8, 12), 3
                 )
             )
         }
@@ -64,7 +66,7 @@ class RideRoutesTest {
 
     @Test
     fun testCreateRideInvalidDriverId() = testApplication {
-        val driverId = "Invalid"
+        val driverId = 5000
         val client = createClient {
             install(ContentNegotiation) {
                 json()
@@ -102,7 +104,7 @@ class RideRoutesTest {
             contentType(ContentType.Application.Json)
             setBody(
                 RideDao.createRideObject(
-                    rideId, "1", "Athens", "Pilio", LocalDate(2022, 8, 12), 3
+                    rideId, 1, "Athens", "Pilio", LocalDate(2022, 8, 12), 3
                 )
             )
         }
@@ -175,7 +177,7 @@ class RideRoutesTest {
             contentType(ContentType.Application.Json)
             setBody(
                 RideDao.createRideObject(
-                    100, "1", "Athens", "Pilio", LocalDate(2022, 8, 12), 0
+                    100, 1, "Athens", "Pilio", LocalDate(2022, 8, 12), 0
                 )
             )
         }
@@ -225,7 +227,7 @@ class RideRoutesTest {
 
     @Test
     fun testAddPassengerWithInvalidPassengerId() = testApplication {
-        val invalidPassengerId = "invalidPassengerId"
+        val invalidPassengerId = 5000
         val client = createClient {
             install(ContentNegotiation) {
                 json()
@@ -292,7 +294,7 @@ class RideRoutesTest {
 
     @Test
     fun testRemovePassengerInvalidPassengerId() = testApplication {
-        val invalidPassengerId = "invalidPassengerId"
+        val invalidPassengerId = 5000
         val client = createClient {
             install(ContentNegotiation) {
                 json()

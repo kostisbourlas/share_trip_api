@@ -3,6 +3,7 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.server.util.*
 
 
 fun Route.travelerRouting() {
@@ -11,10 +12,8 @@ fun Route.travelerRouting() {
             return@get call.respond(TravelerDao.getTravelers())
         }
 
-        get("/{id?}") {
-            val id = call.parameters["id"] ?: return@get call.respondText(
-                "Missing id.", status = HttpStatusCode.BadRequest
-            )
+        get("/{id}") {
+            val id = call.parameters.getOrFail<Int>("id").toInt()
             val traveler = TravelerDao.getTraveler(id) ?: return@get call.respondText(
                 "No traveler with id ${id}.", status = HttpStatusCode.NotFound
             )
@@ -28,8 +27,9 @@ fun Route.travelerRouting() {
             call.respondText("Traveler created successfully.", status = HttpStatusCode.Created)
         }
 
-        delete("/{id?}/delete") {
-            val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
+        delete("/{id}/delete") {
+            val id = call.parameters.getOrFail<Int>("id").toInt()
+
 
             if (TravelerDao.deleteTraveler(id)) {
                 call.respondText("Traveler deleted successfully.", status = HttpStatusCode.OK)
