@@ -1,4 +1,4 @@
-package gr.sharethetrip
+package gr.sharethetrip.routes
 
 import gr.sharethetrip.domain.RideDao
 import io.ktor.client.plugins.contentnegotiation.*
