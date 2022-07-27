@@ -1,6 +1,6 @@
 package gr.sharethetrip
 
-import SearchRideDao
+import gr.sharethetrip.domain.SearchRideDao
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
