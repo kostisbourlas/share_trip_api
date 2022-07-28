@@ -1,7 +1,7 @@
 package gr.sharethetrip
 
 import io.ktor.server.application.*
-import gr.sharethetrip.plugins.*
+import gr.sharethetrip.infrastructure.*
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 

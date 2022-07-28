@@ -1,4 +1,4 @@
-package gr.sharethetrip.plugins
+package gr.sharethetrip.infrastructure
 
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
